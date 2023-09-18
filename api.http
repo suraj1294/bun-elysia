@@ -1,0 +1,15 @@
+@host = https://old-fog-2691.fly.dev 
+//http://localhost:3000
+
+GET {{host}}
+
+###
+
+POST {{host}}/sign-in
+Content-Type: application/json
+
+{
+    "username": "suraj",
+    "password": "suraj1294"
+}
+

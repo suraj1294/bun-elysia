@@ -1,0 +1,16 @@
+{
+  "name": "bun",
+  "module": "http.ts",
+  "type": "module",
+  "devDependencies": {
+    "@flydotio/dockerfile": "latest",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@elysiajs/swagger": "^0.6.2",
+    "elysia": "^0.6.23"
+  }
+}
