@@ -45,7 +45,10 @@ const app = new Elysia()
       }),
     }
   )
-  .listen(port);
+  .listen({
+    hostname: "::",
+    port: process.env.PORT ?? port,
+  });
 
 export type App = typeof app;
 
