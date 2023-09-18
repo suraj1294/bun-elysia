@@ -3,7 +3,7 @@
   "module": "http.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run index.ts"
+    "start": "bun run http.ts"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "latest",
