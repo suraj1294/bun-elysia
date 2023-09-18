@@ -169,6 +169,7 @@ dist
 .pnp.\*
 
 # fly deploy
+.dockerignore
 Dockerfile
 fly.toml
 bun.lockb
