@@ -167,9 +167,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.\*
-
-# fly deploy
-.dockerignore
-Dockerfile
-fly.toml
-bun.lockb
