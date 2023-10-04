@@ -1,24 +1,15 @@
-# bun
+# Elysia with Bun runtime
 
-To install dependencies:
-
+## Getting Started
+To get started with this template, simply paste this command into your terminal:
 ```bash
-bun install
+bun create elysia ./elysia-example
 ```
 
-To run:
-
+## Development
+To start the development server run:
 ```bash
-bun run http.ts
+bun run dev
 ```
 
-To deploy, run through our
-[hands-on walk-through](https://fly.io/docs/hands-on/), then:
-
-```bash
-fly launch
-fly deploy
-```
-
-This project was created using `bun init` in bun v0.6.13. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
-
+Open http://localhost:3000/ with your browser to see the result.
