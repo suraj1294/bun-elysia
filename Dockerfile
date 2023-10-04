@@ -1,39 +1,30 @@
-# syntax = docker/dockerfile:1.4
+FROM debian:11.6-slim as builder
 
-# Adjust BUN_VERSION as desired
-ARG BUN_VERSION=1.0.0
-FROM oven/bun:${BUN_VERSION} as base
-
-LABEL fly_launch_runtime="Bun"
-
-# Bun app lives here
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
+RUN apt update
+RUN apt install curl unzip -y
 
+RUN curl https://bun.sh/install | bash
 
-# Throw-away build stage to reduce size of final image
-FROM base as build
+COPY package.json .
+COPY bun.lockb .
 
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install -y build-essential pkg-config python-is-python3
+RUN /root/.bun/bin/bun install --production
 
-# Install node modules
-COPY  bun.lockb package.json ./
-RUN bun install --ci
+# ? -------------------------
+FROM gcr.io/distroless/base
 
-# Copy application code
-COPY  src ./src
+WORKDIR /app
 
+COPY --from=builder /root/.bun/bin/bun bun
+COPY --from=builder /app/node_modules node_modules
 
-# Final stage for app image
-FROM base
+COPY src src
+COPY tsconfig.json .
+# COPY public public
 
-# Copy built application
-COPY --from=build /app /app
+ENV NODE_ENV production
+CMD ["./bun", "src/index.ts"]
 
-# Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD [ "bun", "src/http.ts" ]
