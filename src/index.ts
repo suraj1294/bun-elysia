@@ -38,9 +38,14 @@ const app = new Elysia()
     removeCookie("auth");
     return `ok`;
   })
-  .listen({
-    hostname: "::",
-    port: process.env.PORT ?? 3000,
-  });
+  .listen(
+    {
+      hostname: "::",
+      port: process.env.PORT ?? 3000,
+    },
+    ({ hostname, port }) => {
+      console.log(`application running on ${hostname}:${port}`);
+    }
+  );
 
 export type App = typeof app;
