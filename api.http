@@ -1,11 +1,11 @@
-@host = https://old-fog-2691.fly.dev 
-//http://localhost:3000
+//@host = https://old-fog-2691.fly.dev 
+@host=http://localhost:3000
 
 GET {{host}}
 
 ###
 
-POST {{host}}/sign-in
+POST {{host}}/profile
 Content-Type: application/json
 
 {
