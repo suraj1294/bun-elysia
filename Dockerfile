@@ -1,4 +1,4 @@
-# syntax = docker/dockerfile:1
+# syntax = docker/dockerfile:1.4
 
 # Adjust BUN_VERSION as desired
 ARG BUN_VERSION=1.0.0
