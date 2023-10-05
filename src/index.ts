@@ -2,42 +2,35 @@ import { Elysia, t } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
+import { auth } from "./modules/auth";
+import { ApiResponse } from "./types";
 // http.ts
 const vmRegion = process.env.FLY_REGION || "local";
 console.log(`Doing it from ${vmRegion}`);
 
-const app = new Elysia()
+export type BaseAppType = typeof baseApp;
+
+export const baseApp = new Elysia()
+  .get("/", () => ({ ok: true }))
   .use(swagger())
-  .get("/", (c) => "ok")
+  .use(cookie())
   .use(
     jwt({
       name: "jwt",
-      secret: "Fischl von Luftschloss Narfidort",
+      secret: Bun.env.JWT_SECRET as string,
     })
-  )
-  .use(cookie())
-  .get("/sign/:name", async ({ jwt, cookie, setCookie, params }) => {
-    setCookie("auth", await jwt.sign(params), {
-      httpOnly: true,
-      maxAge: 7 * 86400,
-    });
+  );
 
-    return `Sign in as ${cookie.auth}`;
-  })
-  .get("/profile", async ({ jwt, set, cookie: { auth } }) => {
-    const profile = await jwt.verify(auth);
-
-    if (!profile) {
-      set.status = 401;
-      return "Unauthorized";
+const app = new Elysia()
+  .use(baseApp)
+  .use(auth)
+  .get(
+    "/logout",
+    async ({ removeCookie, cookie: { auth } }): Promise<ApiResponse> => {
+      removeCookie("auth");
+      return { success: true, data: "user logged out" };
     }
-
-    return `Hello ${profile.name}`;
-  })
-  .get("/logout", ({ removeCookie }) => {
-    removeCookie("auth");
-    return `ok`;
-  })
+  )
   .listen(
     {
       hostname: "::",
